@@ -2,7 +2,7 @@
 export default async function handler(req, res) {
   // ----- CORS pre-flight -----
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');          // change to your domain later
+    res.setHeader('Access-Control-Allow-Origin', 'https://yosoykush.fun');          // change to your domain later
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     return res.status(200).end();
