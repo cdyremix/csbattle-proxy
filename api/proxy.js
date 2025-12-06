@@ -1,27 +1,24 @@
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+const fetch = require('node-fetch');
 
-  let { from, to } = req.query;
+module.exports = async (req, res) => {
+  const { from, to } = req.query;
   if (!from || !to) {
-    return res.status(400).json({ error: 'Missing from/to params' });
+    return res.status(400).json({ error: 'Missing from or to parameters' });
   }
 
-  // Format dates: Replace 'T' with space and remove milliseconds/timezone
-  from = from.replace('T', ' ').split('.')[0];
-  to = to.replace('T', ' ').split('.')[0];
-
-  const apiUrl = `https://api.csbattle.com/leaderboards/affiliates/68723b79-85d8-4438-8e84-ffdcdbba258b?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+  const targetUrl = `https://affiliates.csbattle.gg/v1/referrals?from=${from}&to=${to}`; // Replace with actual target API URL
 
   try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-    if (data.message && data.message.includes('disabled')) {
-      return res.status(200).json({ referrals: [] }); // Return empty list to avoid 500
+    const response = await fetch(targetUrl, {
+      method: 'GET',
+      // If API key needed: headers: { 'Authorization': 'Bearer YOUR_KEY' } or add &key=YOUR_KEY to targetUrl
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
     }
-    res.status(response.status).json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-}
+};
