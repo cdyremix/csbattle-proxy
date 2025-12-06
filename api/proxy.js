@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
   // Replace with the real endpoint from inspecting csbattle.gg affiliate dashboard
   // Example: 'https://api.csbattle.gg/v1/affiliates/referrals?key=YOUR_API_KEY&from=${from}&to=${to}'
   // Add headers if needed, e.g., { 'Authorization': 'Bearer YOUR_TOKEN' }
-  const targetUrl = `https://affiliates.csbattle.gg/v1/referrals?from=${from}&to=${to}`;
+  const targetUrl = `https://api.csbattle.com/leaderboards/affiliates/68723b79-85d8-4438-8e84-ffdcdbba258b?from=${from}&to=${to}`;
 
   try {
     const response = await fetch(targetUrl, {
