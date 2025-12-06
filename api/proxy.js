@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
 
   try {
     const { from, to } = req.query;
-    const apiUrl = `https://api.csbattle.com/referrals?from=${from}&to=${to}`; // REPLACE with actual real CSBattle API URL
+    const apiUrl = `https://api.csbattle.com/leaderboards/affiliates/68723b79-85d8-4438-8e84-ffdcdbba258b?from=2025-12-01%2000:00:00&to=2025-12-31%2023:59:59`; // REPLACE with actual real CSBattle API URL
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
