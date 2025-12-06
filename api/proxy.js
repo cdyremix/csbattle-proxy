@@ -1,7 +1,12 @@
 module.exports = async (req, res) => {
+  // Add CORS headers early for all responses, including errors
+  res.setHeader('Access-Control-Allow-Origin', 'https://yosoykush.fun');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   try {
     const { from, to } = req.query;
-    const apiUrl = `https://api.csbattle.gg/referrals?from=${from}&to=${to}`; // REPLACE with the actual CSBattle API URL and add any key/header if needed
+    const apiUrl = `https://api.csbattle.com/referrals?from=${from}&to=${to}`; // REPLACE with actual real CSBattle API URL
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
@@ -14,16 +19,9 @@ module.exports = async (req, res) => {
       return;
     }
     const data = await response.json();
-    // Add CORS headers
-    res.setHeader('Access-Control-Allow-Origin', 'https://yosoykush.fun');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).json(data);
   } catch (error) {
-    // Add CORS even on error
-    res.setHeader('Access-Control-Allow-Origin', 'https://yosoykush.fun');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    console.error('Proxy error details:', error); // Log for Vercel dashboard
     res.status(500).json({ error: `Proxy error: ${error.message}` });
   }
 };
